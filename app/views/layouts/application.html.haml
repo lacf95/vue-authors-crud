@@ -1,0 +1,10 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Authors
+    = csrf_meta_tags
+    = stylesheet_pack_tag 'app_vue'
+    = javascript_pack_tag 'app_vue'
+  %body
+    = yield

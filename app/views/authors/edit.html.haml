@@ -1,0 +1,10 @@
+= form_with model: @author, local: true do |form|
+  = form.label :first_name
+  = form.text_field :first_name
+  = form.label :last_name
+  = form.text_field :last_name
+  = form.label :email
+  = form.text_field :email, type: 'email'
+  = form.label :nationality
+  = form.text_field :nationality
+  = form.submit 'update author'
