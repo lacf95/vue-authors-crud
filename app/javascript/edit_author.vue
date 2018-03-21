@@ -35,9 +35,9 @@
         .col-md-6.offset-md-6
           button.btn.btn-block.btn-outline-success(@click='updateAuthor()') update author
     hr
-    router-link.font-weight-bold(to='/') back to authors list
+    router-link.text-info.font-weight-bold(to='/') back to authors list
     br
-    router-link.font-weight-bold(:to='"/show/" + author.id') back to author page
+    router-link.text-info.font-weight-bold(:to='"/show/" + author.id') back to author page
 </template>
 
 <script>
