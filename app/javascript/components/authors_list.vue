@@ -55,7 +55,8 @@ export default {
       let isSure = confirm('Delete author from database?');
       if (isSure) {
         axios.delete(`/v1/authors/${author_id}.json`)
-          .then(response => this.getAuthors());
+          .then(response => this.getAuthors())
+          .catch(error => this.getAuthors());
       }
     }
   },

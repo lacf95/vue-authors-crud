@@ -12,10 +12,10 @@
 <script>
 import feather from 'feather-icons';
 
-import AuthorsList from 'authors_list';
-import NewAuthor from 'new_author';
-import ShowAuthor from 'show_author';
-import EditAuthor from 'edit_author';
+import AuthorsList from './components/authors_list';
+import NewAuthor from './components/new_author';
+import ShowAuthor from './components/show_author';
+import EditAuthor from './components/edit_author';
 import VueRouter from 'vue-router';
 import store from 'packs/store';
 

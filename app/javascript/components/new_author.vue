@@ -34,8 +34,14 @@
       .row
         .col-md-6.offset-md-6
           button.btn.btn-block.btn-outline-success(@click='addAuthor()') save author
+      br
+      .row
+        .col-md-6.offset-md-6
+          .form-check.text-right
+            input#back.form-check-input(v-model='backToList', type='checkbox')
+            label.text-info.font-weight-bold.form-check-label(for='back') back to authors list on save
     hr
-    router-link.font-weight-bold(to='/') back to authors list
+    router-link.text-info.font-weight-bold(to='/') back to authors list
 </template>
 
 <script>
@@ -50,16 +56,29 @@ export default {
         email: '',
         nationality: ''
       },
-      errors: {}
+      errors: {},
+      backToList: false
     };
   },
   methods: {
     addAuthor() {
       axios.post('/v1/authors.json', this.author).then(response => {
-        this.$router.push({ path: `/show/${response.data.id}` });
+        let route = `/show/${response.data.id}`;
+        if (this.backToList) {
+          route = '/';
+        }
+        this.$router.push({ path: route });
       }).catch(error => {
         this.errors = error.response.data;
       });
+    }
+  },
+  created() {
+    this.backToList = this.$store.state.backToList;
+  },
+  watch: {
+    backToList: function (newValue) {
+      this.$store.commit('backToList', newValue);
     }
   }
 }
@@ -72,5 +91,13 @@ export default {
 
 input {
   border-radius: 0px;
+}
+
+.form-check input {
+  cursor: pointer;
+}
+
+.form-check label {
+  cursor: pointer;
 }
 </style>
