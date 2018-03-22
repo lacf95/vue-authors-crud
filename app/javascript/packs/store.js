@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    lastPage: '/'
+    lastPage: '/',
+    backToList: false
   },
   mutations: {
     lastPage(state, newPage) {
       state.lastPage = newPage;
+    },
+    backToList(state, value) {
+      state.backToList = value;
     }
   }
 });
