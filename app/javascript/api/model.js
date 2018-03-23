@@ -26,11 +26,7 @@ const Model = {
 
   call_api(url, method = 'get', data = {}) {
     return new Promise((resolve, reject) => {
-      axios({
-        method,
-        url,
-        data
-      })
+      axios({ method, url, data })
         .then(response => {
           resolve(response.data);
         }).catch(error => {
