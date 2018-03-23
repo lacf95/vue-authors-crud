@@ -1,6 +1,6 @@
 <template lang="pug">
   #edit-author
-    app-error(v-if='notFound')
+    app-error(v-if='not_found')
     div(v-else)
       h2 Edit author
       br
@@ -35,7 +35,7 @@
             p.small.text-danger(v-for='error in errors.nationality') Nationality {{ error }}
         .row
           .col-md-6.offset-md-6
-            button.btn.btn-block.btn-outline-success(@click='updateAuthor()') update author
+            button.btn.btn-block.btn-outline-success(@click='update_author()') update author
       hr
       router-link.text-info.font-weight-bold(to='/') back to authors list
       br
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import Author from '../api/author';
 import AppError from './app_error';
 
 export default {
@@ -56,27 +56,27 @@ export default {
         nationality: ''
       },
       errors: {},
-      notFound: false
+      not_found: false
     };
   },
   components: { AppError },
   methods: {
-    updateAuthor() {
-      axios.patch(`/v1/authors/${this.author.id}.json`, this.author)
+    update_author() {
+      Author.update(this.author)
         .then(response => {
-          this.$router.push({ path: this.$store.state.lastPage });
+          this.$router.push({ path: this.$store.state.last_page });
         }).catch(error => {
-          this.errors = error.response.data;
+          this.errors = error;
         });
     },
-    getAuthor() {
-      axios.get(`/v1/authors/${this.$route.params.id}.json`)
-        .then(response => this.author = response.data)
-        .catch(error => this.notFound = true);
+    get_author() {
+      Author.find(this.$route.params.id)
+        .then(response => this.author = response)
+        .catch(error => this.not_found = true);
     }
   },
   created() {
-    this.getAuthor();
+    this.get_author();
   }
 }
 </script>
