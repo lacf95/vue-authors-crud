@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import Author from '../api/author';
 import moment from 'moment';
 import AppError from './app_error';
 
@@ -42,14 +42,14 @@ export default {
   components: { AppError },
   methods: {
     get_author() {
-      axios.get(`/v1/authors/${this.$route.params.id}.json`)
-        .then(response => this.author = response.data)
+      Author.find(this.$route.params.id)
+        .then(response => this.author = response)
         .catch(error => this.not_found = true);
     },
     delete_author() {
       let is_sure = confirm('Delete author from database?');
       if (is_sure) {
-        axios.delete(`/v1/authors/${this.author.id}.json`)
+        Author.destroy(this.author.id)
           .then(response => this.$router.push('/'))
           .catch(error => this.$router.push('/'));
       }
