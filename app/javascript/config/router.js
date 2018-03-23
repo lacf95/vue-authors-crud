@@ -5,6 +5,7 @@ import ShowAuthor from '../components/show_author';
 import EditAuthor from '../components/edit_author';
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     { path: '/', component: AuthorsList },
     { path: '/new', component: NewAuthor },
