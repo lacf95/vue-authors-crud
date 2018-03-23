@@ -4,7 +4,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 import App from '../app.vue';
-import store from './store';
+import store from '../config/store';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);

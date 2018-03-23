@@ -22,17 +22,17 @@
           td {{ author.nationality }}
           td
             span
-              router-link.font-weight-bold.text-info(:to='getShowRoute(author.id)') show
+              router-link.font-weight-bold.text-info(:to='get_show_rute(author.id)') show
             span.text-secondary |
             span
-              router-link.font-weight-bold.text-info(:to='getEditRoute(author.id)') edit
+              router-link.font-weight-bold.text-info(:to='get_edit_rute(author.id)') edit
             span.text-secondary |
             span
-              a.font-weight-bold.text-danger(href='', @click.prevent='deleteAuthor(author.id)') delete
+              a.font-weight-bold.text-danger(href='', @click.prevent='delete_author(author.id)') delete
 </template>
 
 <script>
-import axios from 'axios';
+import Author from '../api/author';
 
 export default {
   data() {
@@ -41,27 +41,26 @@ export default {
     }
   },
   methods: {
-    getAuthors() {
-      axios.get('/v1/authors.json')
-        .then(response => this.authors = response.data);
+    get_authors() {
+      Author.all().then(authors => this.authors = authors);
     },
-    getShowRoute(author_id) {
+    get_show_rute(author_id) {
       return `/show/${author_id}`;
     },
-    getEditRoute(author_id) {
+    get_edit_rute(author_id) {
       return `/edit/${author_id}`;
     },
-    deleteAuthor(author_id) {
-      let isSure = confirm('Delete author from database?');
-      if (isSure) {
-        axios.delete(`/v1/authors/${author_id}.json`)
-          .then(response => this.getAuthors())
-          .catch(error => this.getAuthors());
+    delete_author(author_id) {
+      let is_sure = confirm('Delete author from database?');
+      if (is_sure) {
+        Author.destroy(author_id)
+          .then(response => this.get_authors())
+          .catch(error => this.get_authors());
       }
     }
   },
   created() {
-    this.getAuthors();
+    this.get_authors();
   }
 };
 </script>

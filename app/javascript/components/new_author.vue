@@ -33,19 +33,19 @@
           p.small.text-danger(v-for='error in errors.nationality') Nationality {{ error }}
       .row
         .col-md-6.offset-md-6
-          button.btn.btn-block.btn-outline-success(@click='addAuthor()') save author
+          button.btn.btn-block.btn-outline-success(@click='add_author()') save author
       br
       .row
         .col-md-6.offset-md-6
           .form-check.text-right
-            input#back.form-check-input(v-model='backToList', type='checkbox')
+            input#back.form-check-input(v-model='back_to_list', type='checkbox')
             label.text-info.font-weight-bold.form-check-label(for='back') back to authors list on save
     hr
     router-link.text-info.font-weight-bold(to='/') back to authors list
 </template>
 
 <script>
-import axios from 'axios';
+import Author from '../api/author';
 
 export default {
   data() {
@@ -57,28 +57,28 @@ export default {
         nationality: ''
       },
       errors: {},
-      backToList: false
+      back_to_list: false
     };
   },
   methods: {
-    addAuthor() {
-      axios.post('/v1/authors.json', this.author).then(response => {
-        let route = `/show/${response.data.id}`;
-        if (this.backToList) {
+    add_author() {
+      Author.add(this.author).then(response => {
+        let route = `/show/${response.id}`;
+        if (this.back_to_list) {
           route = '/';
         }
         this.$router.push({ path: route });
       }).catch(error => {
-        this.errors = error.response.data;
+        this.errors = error;
       });
     }
   },
   created() {
-    this.backToList = this.$store.state.backToList;
+    this.back_to_list = this.$store.state.back_to_list;
   },
   watch: {
-    backToList: function (newValue) {
-      this.$store.commit('backToList', newValue);
+    back_to_list: function (newValue) {
+      this.$store.commit('back_to_list', newValue);
     }
   }
 }

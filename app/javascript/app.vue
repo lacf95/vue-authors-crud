@@ -11,25 +11,11 @@
 
 <script>
 import feather from 'feather-icons';
-
-import AuthorsList from './components/authors_list';
-import NewAuthor from './components/new_author';
-import ShowAuthor from './components/show_author';
-import EditAuthor from './components/edit_author';
-import VueRouter from 'vue-router';
-import store from 'packs/store';
-
-const router = new VueRouter({
-  routes: [
-    { path: '/', component: AuthorsList },
-    { path: '/new', component: NewAuthor },
-    { path: '/show/:id', component: ShowAuthor },
-    { path: '/edit/:id', component: EditAuthor }
-  ]
-});
+import router from './config/router'
+import store from './config/store';
 
 router.beforeEach((to, from, next) => {
-  store.commit('lastPage', from.path);
+  store.commit('last_page', from.path);
   next();
 });
 
