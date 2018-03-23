@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  root 'authors#index'
-  resources :authors
+  root 'home#index'
+
   namespace :v1 do
     resources :authors
   end
