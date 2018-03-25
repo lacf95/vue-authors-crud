@@ -66,13 +66,20 @@ export default {
         .then(response => {
           this.$router.push({ path: this.$store.state.last_page });
         }).catch(error => {
-          this.errors = error;
+          if (error.status === 404) {
+            this.not_found = true;
+          }
+          this.errors = error.messages;
         });
     },
     get_author() {
       Author.find(this.$route.params.id)
         .then(response => this.author = response)
-        .catch(error => this.not_found = true);
+        .catch(error => {
+          if (error.status === 404) {
+            this.not_found = true;
+          }
+        });
     }
   },
   created() {
