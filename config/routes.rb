@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   namespace :v1 do
     resources :authors
   end
+
+  get '/*path', to: 'home#index'
 end
