@@ -62,15 +62,19 @@ export default {
   },
   methods: {
     add_author() {
-      Author.add(this.author).then(response => {
-        let route = `/show/${response.id}`;
-        if (this.back_to_list) {
-          route = '/';
-        }
-        this.$router.push({ path: route });
-      }).catch(error => {
-        this.errors = error;
-      });
+      Author.add(this.author)
+        .then(response => {
+          this.$router.push({ path: this.back_route(response.id) });
+        }).catch(error => {
+          this.errors = error.messages;
+        });
+    },
+    back_route(author_id) {
+      let route = `/show/${author_id}`;
+      if (this.back_to_list) {
+        route = '/';
+      }
+      return route;
     }
   },
   created() {

@@ -44,14 +44,20 @@ export default {
     get_author() {
       Author.find(this.$route.params.id)
         .then(response => this.author = response)
-        .catch(error => this.not_found = true);
+        .catch(error => {
+          if (error.status === 404) {
+            this.not_found = true;
+          }
+        });
     },
     delete_author() {
       let is_sure = confirm('Delete author from database?');
       if (is_sure) {
         Author.destroy(this.author.id)
           .then(response => this.$router.push('/'))
-          .catch(error => this.$router.push('/'));
+          .catch(error => {
+            this.$router.push('/');
+          });
       }
     },
     date_to_human(date) {

@@ -37,12 +37,17 @@ import Author from '../api/author';
 export default {
   data() {
     return {
-      authors: []
+      authors: [],
+      errors: {}
     }
   },
   methods: {
     get_authors() {
-      Author.all().then(authors => this.authors = authors);
+      Author.all()
+        .then(authors => this.authors = authors)
+        .catch(error => {
+          this.errors = error.messages;
+        });
     },
     get_show_rute(author_id) {
       return `/show/${author_id}`;
