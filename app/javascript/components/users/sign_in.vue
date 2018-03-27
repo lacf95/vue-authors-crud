@@ -36,7 +36,10 @@ export default {
       Auth.signIn(this.credential)
         .then(response => {
           this.$store.commit('user', response);
-          this.$router.push({ path: this.$store.state.lastPage });
+          this.$router.push({
+            name: this.$store.state.lastPage.name,
+            params: this.$store.state.lastPage.params
+          });
         })
         .catch(error => {
           if (error.status === this.$status.unauthorized) {

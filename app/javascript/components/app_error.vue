@@ -1,12 +1,12 @@
 <template lang="pug">
   #error
-    h2 Sorry but this author is gone
+    h2 Sorry but this author does not exist
     hr
-    router-link(to='/') back to authors list
+    router-link(:to='{ name: "home" }') back to authors list
 </template>
 
 <script>
-export default {  }
+export default { }
 </script>
 
 <style scoped>

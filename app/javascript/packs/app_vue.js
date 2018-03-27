@@ -12,7 +12,6 @@ Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 
 Vue.prototype.$status = Status;
-Vue.prototype.$Session = Session;
 
 document.addEventListener('DOMContentLoaded', () => {
   const el = document.body.appendChild(document.createElement('app'));

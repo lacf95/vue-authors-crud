@@ -8,12 +8,6 @@
 import feather from 'feather-icons';
 import AppHeader from './components/app_header';
 import router from './config/router'
-import store from './config/store';
-
-router.beforeEach((to, from, next) => {
-  store.commit('lastPage', from.path);
-  next();
-});
 
 export default {
   router,
@@ -26,7 +20,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+body {
+  background-color: #f8f8f8;
+}
+
 @import url('https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,700');
 
 * {
@@ -35,5 +33,21 @@ export default {
 
 .container {
   margin-top: 20px;
+}
+
+.btn {
+  border-radius: 0px;
+}
+
+input {
+  border-radius: 0px!important;
+}
+
+.form-check input {
+  cursor: pointer;
+}
+
+.form-check label {
+  cursor: pointer;
 }
 </style>
