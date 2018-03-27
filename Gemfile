@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'haml-rails'
 gem 'jwt'
+gem 'bcrypt'
 
 group :development, :test do
   gem 'pry'

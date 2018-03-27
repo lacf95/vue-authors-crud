@@ -1,19 +1,29 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
+import Session from './session';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    last_page: '/',
-    back_to_list: false
+    lastPage: '/',
+    backToList: false,
+    user: Session.get()
   },
   mutations: {
-    last_page(state, value) {
-      state.last_page = value;
+    lastPage(state, value) {
+      state.lastPage = value;
     },
-    back_to_list(state, value) {
-      state.back_to_list = value;
+    backToList(state, value) {
+      state.backToList = value;
+    },
+    user(state, value) {
+      state.user = value;
+      if (value) {
+        Session.signIn(value);
+      } else {
+        Session.signOut();
+      }
     }
   }
 });

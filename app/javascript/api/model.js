@@ -1,35 +1,35 @@
-import axios from 'axios';
+import axios from '../config/axios';
 
-const Model = function(default_api_url = '/') {
+axios.refreshToken();
+
+const Model = function(defaultApiUrl = '/') {
   let _methods = { delete: 'delete', get: 'get', patch: 'patch', post: 'post' }
-  let _api_url = default_api_url;
-  let _api_format = '';
-  let _api_token = '';
+  let _apiUrl = defaultApiUrl;
+  let _apiFormat = '';
 
   function all() {
-    return call_api(rute());
+    return callApi(rute());
   }
 
-  function find(model_id) {
-    return call_api(rute(model_id));
+  function find(modelId) {
+    return callApi(rute(modelId));
   }
 
   function add(model) {
-    return call_api(rute(), _methods.post, model);
+    return callApi(rute(), _methods.post, model);
   }
 
   function update(model) {
-    return call_api(rute(model.id), _methods.patch, model);
+    return callApi(rute(model.id), _methods.patch, model);
   }
 
-  function destroy(model_id) {
-    return call_api(rute(model_id), _methods.delete);
+  function destroy(modelId) {
+    return callApi(rute(modelId), _methods.delete);
   }
 
-  function call_api(url, method = 'get', data = {}) {
-    let headers = set_headers();
+  function callApi(url, method = 'get', data = {}) {
     return new Promise((resolve, reject) => {
-      axios({ method, url, data, headers })
+      axios({ method, url, data })
         .then(response => {
           resolve(response.data);
         }).catch(error => {
@@ -41,40 +41,27 @@ const Model = function(default_api_url = '/') {
     });
   }
 
-  function api_url(new_api_url) {
-    if (new_api_url !== undefined) {
-      _api_url = new_api_url;
+  function apiUrl(newApiUrl) {
+    if (newApiUrl !== undefined) {
+      _apiUrl = newApiUrl;
     }
-    return _api_url;
+    return _apiUrl;
   }
 
-  function api_format(new_api_format) {
-    if (new_api_format !== undefined) {
-      _api_format = new_api_format;
+  function apiFormat(newApiFormat) {
+    if (newApiFormat !== undefined) {
+      _apiFormat = newApiFormat;
     }
-    return _api_format;
+    return _apiFormat;
   }
 
-  function api_token(new_api_token) {
-    if (new_api_token !== undefined) {
-      _api_token = new_api_token;
-    }
-    return _api_token;
-  }
-
-  function rute(model_id = null) {
-    let model = model_id ? `/${model_id}` : '';
-    return `${_api_url}${model}${_api_format}`;
-  }
-
-  function set_headers() {
-    return {
-      'Authorization': `bearer ${_api_token}`
-    };
+  function rute(modelId = null) {
+    let model = modelId ? `/${modelId}` : '';
+    return `${_apiUrl}${model}${_apiFormat}`;
   }
 
   return {
-    all, find, add, update, destroy, call_api, api_url, api_format, api_token
+    all, find, add, update, destroy, callApi, apiUrl, apiFormat
   };
 };
 
