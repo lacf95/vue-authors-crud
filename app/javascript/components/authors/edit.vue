@@ -3,6 +3,7 @@
     app-error(v-if='notFound')
     div(v-else)
       h2 Edit author
+      hr
       br
       div
         .form-group.row
@@ -37,9 +38,9 @@
           .col-md-6.offset-md-6
             button.btn.btn-block.btn-outline-success(@click='updateAuthor()') update author
       hr
-      router-link.text-info.font-weight-bold(to='/') back to authors list
+      router-link.text-info.font-weight-bold(:to='{ name: "home" }') back to authors list
       br
-      router-link.text-info.font-weight-bold(:to='"/show/" + author.id') back to author page
+      router-link.text-info.font-weight-bold(v-if='author.id', :to='{ name: "authorsShow", params: { id: author.id } }') back to author page
 </template>
 
 <script>
@@ -64,7 +65,10 @@ export default {
     updateAuthor() {
       Author.update(this.author)
         .then(response => {
-          this.$router.push({ path: this.$store.state.lastPage });
+          this.$router.push({
+            name: this.$store.state.lastPage.name,
+            params: this.$store.state.lastPage.params
+          });
         }).catch(error => {
           if (error.status === this.$status.notFound) {
             this.notFound = true;
@@ -76,24 +80,25 @@ export default {
       Author.find(this.$route.params.id)
         .then(response => this.author = response)
         .catch(error => {
-          if (error.status === 404) {
+          if (error.status === this.$status.notFound) {
             this.notFound = true;
           }
         });
     }
   },
+  computed: {
+    logged: function() {
+      return (this.$store.state.user);
+    }
+  },
   created() {
+    if (!this.logged) {
+      this.$router.push({ name: 'signIn' });
+    }
     this.getAuthor();
   }
 }
 </script>
 
 <style scoped>
-.btn {
-  border-radius: 0px;
-}
-
-input {
-  border-radius: 0px;
-}
 </style>

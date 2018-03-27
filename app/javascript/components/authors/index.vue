@@ -1,12 +1,13 @@
 <template lang="pug">
   #authors-index
-    h2 Authors listed by last name
-    template(v-if='logged')
-      hr
-      .row
-        .col-md-4.offset-md-4
-         router-link.btn.btn-block.btn-outline-success(to='/new') add new author
+    .row
+      .col-md-6
+        h2 Authors listed by last name
+      .col-md-4.offset-md-2
+        template(v-if='logged')
+          router-link.btn.btn-block.btn-outline-success(:to='{ name: "authorsNew" }') add new author
     hr
+    br
     table.table.table-hover
       thead
         tr.bg-danger.text-light
@@ -23,11 +24,11 @@
           td {{ author.nationality }}
           td
             span
-              router-link.font-weight-bold.text-info(:to='getShowRute(author.id)') show
+              router-link.font-weight-bold.text-info(:to='{ name: "authorsShow", params: { id: author.id } }') show
             template(v-if='logged')
               span.text-secondary |
               span
-                router-link.font-weight-bold.text-info(:to='getEditRute(author.id)') edit
+                router-link.font-weight-bold.text-info(:to='{ name: "authorsEdit", params: {id: author.id} }') edit
               span.text-secondary |
               span
                 a.font-weight-bold.text-danger(href='', @click.prevent='deleteAuthor(author.id)') delete
@@ -51,12 +52,6 @@ export default {
           this.errors = error.messages;
         });
     },
-    getShowRute(authorId) {
-      return `/show/${authorId}`;
-    },
-    getEditRute(authorId) {
-      return `/edit/${authorId}`;
-    },
     deleteAuthor(authorId) {
       let isSure = confirm('Delete author from database?');
       if (isSure) {
@@ -64,7 +59,7 @@ export default {
           .then(response => this.getAuthors())
           .catch(error => {
             if (error.status === this.$status.unauthorized) {
-              console.log('sin auth');
+              this.$router.push({ name: 'signIn' });
             }
             this.getAuthors();
           });
@@ -73,7 +68,7 @@ export default {
   },
   computed: {
     logged: function() {
-      return (this.$Session.getValue('token'));
+      return (this.$store.state.user);
     }
   },
   created() {
@@ -83,11 +78,7 @@ export default {
 </script>
 
 <style scoped>
-  span {
-    margin-right: 5px;
-  }
-
-  .btn {
-    border-radius: 0px;
-  }
+span {
+  margin-right: 5px;
+}
 </style>

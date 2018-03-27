@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    lastPage: '/',
+    lastPage: null,
     backToList: false,
     user: Session.get()
   },

@@ -4,8 +4,12 @@
     div(v-else)
       h2 Author's details
       hr
-      p.text-right.text-secondary.font-italic Registered at {{ dateToHuman(author.created_at) }}
-      p.text-right.text-secondary.font-italic Last updated at {{ dateToHuman(author.updated_at) }}
+      br
+      .row
+        .col-md-6
+          p.text-secondary.font-italic Registered at {{ dateToHuman(author.created_at) }}
+        .col-md-6
+          p.text-right.text-secondary.font-italic Last updated at {{ dateToHuman(author.updated_at) }}
       hr
       .row
         .col-md-6
@@ -23,13 +27,13 @@
           p.small.text-secondary Nationality
           p.lead.bg-light {{ author.nationality }}
       br
-      .row
-        .col-md-6
-          router-link.btn.btn-outline-info.btn-block(:to='"/edit/" + author.id') edit author
+      .row(v-if='logged')
+        .col-md-6(v-if='author.id')
+          router-link.btn.btn-outline-info.btn-block(:to='{ name: "authorsEdit", params: { id: author.id } }') edit author
         .col-md-6
           button.btn.btn-outline-danger.btn-block(@click='deleteAuthor()') delete author
       hr
-      router-link.font-weight-bold.text-info(to='/') back to authors list
+      router-link.font-weight-bold.text-info(:to='{ name: "home" }') back to authors list
 </template>
 
 <script>
@@ -64,6 +68,11 @@ export default {
       return moment(date).format("dddd, MMMM Do YYYY, h:mm a");
     }
   },
+  computed: {
+    logged: function() {
+      return (this.$store.state.user);
+    }
+  },
   created() {
     this.getAuthor();
   }
@@ -74,9 +83,5 @@ export default {
 .bg-light {
   padding: 4px 8px;
   background-color: #dedede!important;
-}
-
-.btn {
-  border-radius: 0px;
 }
 </style>
