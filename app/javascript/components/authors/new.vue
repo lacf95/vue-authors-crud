@@ -2,6 +2,7 @@
   #new-author
     h2 Add new author
     hr
+    br
     div
       .form-group.row
         label.col-md-2 First name
@@ -41,7 +42,7 @@
             input#back.form-check-input(v-model='backToList', type='checkbox')
             label.text-info.font-weight-bold.form-check-label(for='back') back to authors list on save
     hr
-    router-link.text-info.font-weight-bold(to='/') back to authors list
+    router-link.text-info.font-weight-bold(:to='{ name: "home" }') back to authors list
 </template>
 
 <script>
@@ -89,19 +90,4 @@ export default {
 </script>
 
 <style scoped>
-.btn {
-  border-radius: 0px;
-}
-
-input {
-  border-radius: 0px;
-}
-
-.form-check input {
-  cursor: pointer;
-}
-
-.form-check label {
-  cursor: pointer;
-}
 </style>
