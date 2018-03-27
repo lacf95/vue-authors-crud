@@ -1,5 +1,6 @@
 module V1
   class AuthorsController < V1::ApplicationController
+    before_action :authenticate_request!, only: %i[create update destroy]
     before_action :find_author, only: %i[show update destroy]
 
     def index

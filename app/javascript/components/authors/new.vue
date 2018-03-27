@@ -33,19 +33,19 @@
           p.small.text-danger(v-for='error in errors.nationality') Nationality {{ error }}
       .row
         .col-md-6.offset-md-6
-          button.btn.btn-block.btn-outline-success(@click='add_author()') save author
+          button.btn.btn-block.btn-outline-success(@click='addAuthor()') save author
       br
       .row
         .col-md-6.offset-md-6
           .form-check.text-right
-            input#back.form-check-input(v-model='back_to_list', type='checkbox')
+            input#back.form-check-input(v-model='backToList', type='checkbox')
             label.text-info.font-weight-bold.form-check-label(for='back') back to authors list on save
     hr
     router-link.text-info.font-weight-bold(to='/') back to authors list
 </template>
 
 <script>
-import Author from '../api/author';
+import Author from '../../api/author';
 
 export default {
   data() {
@@ -57,32 +57,32 @@ export default {
         nationality: ''
       },
       errors: {},
-      back_to_list: false
+      backToList: false
     };
   },
   methods: {
-    add_author() {
+    addAuthor() {
       Author.add(this.author)
         .then(response => {
-          this.$router.push({ path: this.back_route(response.id) });
+          this.$router.push({ path: this.backRoute(response.id) });
         }).catch(error => {
           this.errors = error.messages;
         });
     },
-    back_route(author_id) {
+    backRoute(author_id) {
       let route = `/show/${author_id}`;
-      if (this.back_to_list) {
+      if (this.backToList) {
         route = '/';
       }
       return route;
     }
   },
   created() {
-    this.back_to_list = this.$store.state.back_to_list;
+    this.backToList = this.$store.state.backToList;
   },
   watch: {
-    back_to_list: function (newValue) {
-      this.$store.commit('back_to_list', newValue);
+    backToList: function (newValue) {
+      this.$store.commit('backToList', newValue);
     }
   }
 }

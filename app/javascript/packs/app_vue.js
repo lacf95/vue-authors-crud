@@ -3,11 +3,16 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
-import App from '../app.vue';
+import Status from '../util/status_codes';
+import Session from '../config/session';
 import store from '../config/store';
+import App from '../app.vue';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+
+Vue.prototype.$status = Status;
+Vue.prototype.$Session = Session;
 
 document.addEventListener('DOMContentLoaded', () => {
   const el = document.body.appendChild(document.createElement('app'));

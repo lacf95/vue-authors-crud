@@ -1,6 +1,6 @@
 <template lang="pug">
   #edit-author
-    app-error(v-if='not_found')
+    app-error(v-if='notFound')
     div(v-else)
       h2 Edit author
       br
@@ -35,7 +35,7 @@
             p.small.text-danger(v-for='error in errors.nationality') Nationality {{ error }}
         .row
           .col-md-6.offset-md-6
-            button.btn.btn-block.btn-outline-success(@click='update_author()') update author
+            button.btn.btn-block.btn-outline-success(@click='updateAuthor()') update author
       hr
       router-link.text-info.font-weight-bold(to='/') back to authors list
       br
@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import Author from '../api/author';
-import AppError from './app_error';
+import Author from '../../api/author';
+import AppError from '../app_error';
 
 export default {
   data() {
@@ -56,34 +56,34 @@ export default {
         nationality: ''
       },
       errors: {},
-      not_found: false
+      notFound: false
     };
   },
   components: { AppError },
   methods: {
-    update_author() {
+    updateAuthor() {
       Author.update(this.author)
         .then(response => {
-          this.$router.push({ path: this.$store.state.last_page });
+          this.$router.push({ path: this.$store.state.lastPage });
         }).catch(error => {
-          if (error.status === 404) {
-            this.not_found = true;
+          if (error.status === this.$status.notFound) {
+            this.notFound = true;
           }
           this.errors = error.messages;
         });
     },
-    get_author() {
+    getAuthor() {
       Author.find(this.$route.params.id)
         .then(response => this.author = response)
         .catch(error => {
           if (error.status === 404) {
-            this.not_found = true;
+            this.notFound = true;
           }
         });
     }
   },
   created() {
-    this.get_author();
+    this.getAuthor();
   }
 }
 </script>

@@ -1,16 +1,20 @@
 import VueRouter from 'vue-router';
-import AuthorsList from '../components/authors_list';
-import NewAuthor from '../components/new_author';
-import ShowAuthor from '../components/show_author';
-import EditAuthor from '../components/edit_author';
+
+import UserAuth from '../components/users/auth';
+
+import AuthorsIndex from '../components/authors/index';
+import AuthorsNew from '../components/authors/new';
+import AuthorsShow from '../components/authors/show';
+import AuthorsEdit from '../components/authors/edit';
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/', component: AuthorsList },
-    { path: '/new', component: NewAuthor },
-    { path: '/show/:id', component: ShowAuthor },
-    { path: '/edit/:id', component: EditAuthor }
+    { path: '/', component: AuthorsIndex },
+    { path: '/sign-in', component: UserAuth },
+    { path: '/new', component: AuthorsNew },
+    { path: '/show/:id', component: AuthorsShow },
+    { path: '/edit/:id', component: AuthorsEdit }
   ]
 });
 
