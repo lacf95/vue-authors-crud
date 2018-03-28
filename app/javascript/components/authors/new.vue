@@ -69,6 +69,9 @@ export default {
         .then(response => {
           this.$router.push(this.backRoute(response.id));
         }).catch(error => {
+          if (error.status === this.$status.unauthorized) {
+            this.goToAuthPage();
+          }
           this.errors = error.messages;
         });
     },

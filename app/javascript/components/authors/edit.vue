@@ -71,6 +71,8 @@ export default {
         }).catch(error => {
           if (error.status === this.$status.notFound) {
             this.notFound = true;
+          } else if (error.status === this.$status.unauthorized) {
+            this.goToAuthPage();
           }
           this.errors = error.messages;
         });
@@ -81,6 +83,8 @@ export default {
         .catch(error => {
           if (error.status === this.$status.notFound) {
             this.notFound = true;
+          } else if (error.status === this.$status.unauthorized) {
+            this.goToAuthPage();
           }
         });
     }

@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'haml-rails'
 gem 'jwt'
 gem 'bcrypt'
+gem 'redis'
 
 group :development, :test do
   gem 'pry'
