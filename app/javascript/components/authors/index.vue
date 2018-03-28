@@ -36,8 +36,10 @@
 
 <script>
 import Author from '../../api/author';
+import { logged } from '../../util/mixins';
 
 export default {
+  mixins: [logged],
   data() {
     return {
       authors: [],
@@ -64,11 +66,6 @@ export default {
             this.getAuthors();
           });
       }
-    }
-  },
-  computed: {
-    logged: function() {
-      return (this.$store.state.user);
     }
   },
   created() {

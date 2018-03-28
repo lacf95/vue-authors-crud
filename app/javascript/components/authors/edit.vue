@@ -46,8 +46,10 @@
 <script>
 import Author from '../../api/author';
 import AppError from '../app_error';
+import { logged, redirect } from '../../util/mixins';
 
 export default {
+  mixins: [redirect, logged],
   data() {
     return {
       author: {
@@ -65,10 +67,7 @@ export default {
     updateAuthor() {
       Author.update(this.author)
         .then(response => {
-          this.$router.push({
-            name: this.$store.state.lastPage.name,
-            params: this.$store.state.lastPage.params
-          });
+          this.backToLastPage();
         }).catch(error => {
           if (error.status === this.$status.notFound) {
             this.notFound = true;
@@ -86,16 +85,18 @@ export default {
         });
     }
   },
-  computed: {
-    logged: function() {
-      return (this.$store.state.user);
-    }
-  },
   created() {
     if (!this.logged) {
       this.$router.push({ name: 'signIn' });
     }
     this.getAuthor();
+  },
+  watch: {
+    logged: function(val) {
+      if (!this.logged) {
+        this.goToAuthPage();
+      }
+    }
   }
 }
 </script>
