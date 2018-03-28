@@ -1,5 +1,8 @@
 import VueRouter from 'vue-router';
+import Vue from 'vue';
 import store from './store';
+
+Vue.use(VueRouter);
 
 import UserAuth from '../components/users/auth';
 import AuthorsIndex from '../components/authors/index';

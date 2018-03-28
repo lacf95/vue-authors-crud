@@ -40,10 +40,10 @@
 import Author from '../../api/author';
 import moment from 'moment';
 import AppError from '../app_error';
-import { logged } from '../../util/mixins';
+import { logged, redirect } from '../../util/mixins';
 
 export default {
-  mixins: [logged],
+  mixins: [logged, redirect],
   data() { return { author: { }, notFound: false } },
   components: { AppError },
   methods: {
@@ -53,6 +53,8 @@ export default {
         .catch(error => {
           if (error.status === this.$status.notFound) {
             this.notFound = true;
+          } else if (error.status === this.$status.unauthorized) {
+            this.goToAuthPage();
           }
         });
     },
@@ -62,7 +64,10 @@ export default {
         Author.destroy(this.author.id)
           .then(response => this.$router.push('/'))
           .catch(error => {
-            this.$router.push('/');
+            if (error.status === this.$status.unauthorized) {
+              this.goToAuthPage();
+            }
+            this.$router.push({ name: 'home' });
           });
       }
     },

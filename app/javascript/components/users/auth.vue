@@ -15,6 +15,9 @@ export default {
   components: {
     SignIn,
     SignUp
+  },
+  created() {
+    this.$store.commit('user');
   }
 }
 </script>

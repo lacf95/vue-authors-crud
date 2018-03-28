@@ -36,10 +36,10 @@
 
 <script>
 import Author from '../../api/author';
-import { logged } from '../../util/mixins';
+import { logged, redirect } from '../../util/mixins';
 
 export default {
-  mixins: [logged],
+  mixins: [logged, redirect],
   data() {
     return {
       authors: [],
@@ -51,6 +51,9 @@ export default {
       Author.all()
         .then(authors => this.authors = authors)
         .catch(error => {
+          if (error.status === this.$status.unauthorized) {
+            this.goToAuthPage();
+          }
           this.errors = error.messages;
         });
     },
@@ -61,7 +64,7 @@ export default {
           .then(response => this.getAuthors())
           .catch(error => {
             if (error.status === this.$status.unauthorized) {
-              this.$router.push({ name: 'signIn' });
+              this.goToAuthPage();
             }
             this.getAuthors();
           });

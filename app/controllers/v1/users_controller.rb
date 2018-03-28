@@ -10,7 +10,7 @@ module V1
     def sign_in
       @user = User.sign_in(credential_params)
       if @user
-        @token = JsonWebToken.encode(user_id: @user.id)
+        create_token
         render 'show'
       else
         render json: {
@@ -21,10 +21,16 @@ module V1
 
     private
 
+    def create_token
+      @token = JsonWebToken.encode(user_id: @user.id, created_at: Time.now.to_i)
+      $redis.set(@token, 'active')
+      $redis.expire(@token, token_time)
+    end
+
     def save_user
       @user.assign_attributes(user_params)
       if @user.save
-        @token = JsonWebToken.encode(user_id: @user.id)
+        create_token
         render 'show'
       else
         render json: @user.errors, status: :bad_request
