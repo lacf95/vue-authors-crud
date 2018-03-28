@@ -20,8 +20,10 @@
 
 <script>
 import Auth from '../../api/auth';
+import { redirect } from '../../util/mixins';
 
 export default {
+  mixins: [redirect],
   data() {
     return {
       credential: {
@@ -36,10 +38,7 @@ export default {
       Auth.signIn(this.credential)
         .then(response => {
           this.$store.commit('user', response);
-          this.$router.push({
-            name: this.$store.state.lastPage.name,
-            params: this.$store.state.lastPage.params
-          });
+          this.backToLastPage();
         })
         .catch(error => {
           if (error.status === this.$status.unauthorized) {

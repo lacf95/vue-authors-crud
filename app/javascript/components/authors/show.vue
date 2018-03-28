@@ -40,8 +40,10 @@
 import Author from '../../api/author';
 import moment from 'moment';
 import AppError from '../app_error';
+import { logged } from '../../util/mixins';
 
 export default {
+  mixins: [logged],
   data() { return { author: { }, notFound: false } },
   components: { AppError },
   methods: {
@@ -66,11 +68,6 @@ export default {
     },
     dateToHuman(date) {
       return moment(date).format("dddd, MMMM Do YYYY, h:mm a");
-    }
-  },
-  computed: {
-    logged: function() {
-      return (this.$store.state.user);
     }
   },
   created() {

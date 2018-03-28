@@ -47,8 +47,10 @@
 
 <script>
 import Author from '../../api/author';
+import { logged, redirect } from '../../util/mixins';
 
 export default {
+  mixins: [redirect, logged],
   data() {
     return {
       author: {
@@ -65,25 +67,37 @@ export default {
     addAuthor() {
       Author.add(this.author)
         .then(response => {
-          this.$router.push({ path: this.backRoute(response.id) });
+          this.$router.push(this.backRoute(response.id));
         }).catch(error => {
           this.errors = error.messages;
         });
     },
     backRoute(author_id) {
-      let route = `/show/${author_id}`;
-      if (this.backToList) {
-        route = '/';
+      const route = {
+        name: 'home',
+        params: {}
+      }
+      if (!this.backToList) {
+        route.name = 'authorsShow';
+        route.params = { id: author_id }
       }
       return route;
     }
   },
   created() {
+    if (!this.logged) {
+      this.goToAuthPage();
+    }
     this.backToList = this.$store.state.backToList;
   },
   watch: {
     backToList: function (newValue) {
       this.$store.commit('backToList', newValue);
+    },
+    logged: function(val) {
+      if (!this.logged) {
+        this.goToAuthPage();
+      }
     }
   }
 }

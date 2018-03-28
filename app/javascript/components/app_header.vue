@@ -22,11 +22,11 @@
 </template>
 
 <script>
+import { logged } from '../util/mixins';
+
 export default {
+  mixins: [logged],
   computed: {
-    logged: function() {
-      return (this.$store.state.user);
-    },
     username: function() {
       return `${this.$store.state.user.first_name} ${this.$store.state.user.last_name}`;
     }
@@ -34,9 +34,8 @@ export default {
   methods: {
     signOut() {
       this.$store.commit('user');
-      this.$router.push({ name: 'home' });
     }
-  }
+  },
 }
 </script>
 
