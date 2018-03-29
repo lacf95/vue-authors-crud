@@ -2,10 +2,6 @@ module V1
   class ApplicationController < ActionController::API
     protected
 
-    def token_time
-      120
-    end
-
     def authenticate_request!
       unless user_id_token? &&
         User.find_by(id: @auth_token[:user_id]) &&
@@ -46,11 +42,7 @@ module V1
     end
 
     def token_is_alive?
-      redis_token = $redis.get(http_token)
-      if redis_token
-        $redis.expire(@auth_token[:user_id], token_time)
-        redis_token
-      end
+      $redis.save_token(http_token) if $redis.get(http_token)
     end
   end
 end
