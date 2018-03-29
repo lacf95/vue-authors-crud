@@ -27,7 +27,10 @@ router.beforeEach((to, from, next) => {
     name: from.name,
     params: from.params
   };
-  if (!lastPage.name) {
+  if (lastPage.name = 'signIn') {
+    lastPage.name = 'home';
+    lastPage.params = {};
+  } else if (!lastPage.name) {
     lastPage.name = to.name;
     lastPage.params = to.params;
   }
