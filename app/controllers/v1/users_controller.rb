@@ -23,8 +23,7 @@ module V1
 
     def create_token
       @token = JsonWebToken.encode(user_id: @user.id, created_at: Time.now.to_i)
-      $redis.set(@token, 'active')
-      $redis.expire(@token, token_time)
+      $redis.save_token(@token)
     end
 
     def save_user
