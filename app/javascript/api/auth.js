@@ -1,13 +1,13 @@
 import Model from './model';
 
-const Auth = new Model();
+const Auth = Model();
 
-Auth.signIn = function signIn(credential) {
-  return this.callApi('/v1/sign-in', 'post', credential);
+Auth.signIn = credential => {
+  return Auth.callApi('/v1/sign-in', Auth.verbs.post, credential);
 }
 
-Auth.signUp = function signUp(user) {
-  return this.callApi('/v1/sign-up', 'post', user);
+Auth.signUp = user => {
+  return Auth.callApi('/v1/sign-up', Auth.verbs.post, user);
 }
 
 export default Auth;
