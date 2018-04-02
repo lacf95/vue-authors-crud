@@ -2,10 +2,10 @@ import axios from '../config/axios';
 
 axios.refreshToken();
 
-const Model = function(defaultApiUrl = '/') {
-  let _methods = { delete: 'delete', get: 'get', patch: 'patch', post: 'post' }
-  let _apiUrl = defaultApiUrl;
-  let _apiFormat = '';
+const Model = (apiUrl = '/', apiFormat = '') => {
+  const _verbs = { delete: 'delete', get: 'get', patch: 'patch', post: 'post' };
+  let _apiUrl = apiUrl;
+  let _apiFormat = apiFormat;
 
   function all() {
     return callApi(rute());
@@ -16,18 +16,18 @@ const Model = function(defaultApiUrl = '/') {
   }
 
   function add(model) {
-    return callApi(rute(), _methods.post, model);
+    return callApi(rute(), _verbs.post, model);
   }
 
   function update(model) {
-    return callApi(rute(model.id), _methods.patch, model);
+    return callApi(rute(model.id), _verbs.patch, model);
   }
 
   function destroy(modelId) {
-    return callApi(rute(modelId), _methods.delete);
+    return callApi(rute(modelId), _verbs.delete);
   }
 
-  function callApi(url, method = 'get', data = {}) {
+  function callApi(url, method = _verbs.get, data = {}) {
     return new Promise((resolve, reject) => {
       axios({ method, url, data })
         .then(response => {
@@ -41,27 +41,18 @@ const Model = function(defaultApiUrl = '/') {
     });
   }
 
-  function apiUrl(newApiUrl) {
-    if (newApiUrl !== undefined) {
-      _apiUrl = newApiUrl;
-    }
-    return _apiUrl;
-  }
-
-  function apiFormat(newApiFormat) {
-    if (newApiFormat !== undefined) {
-      _apiFormat = newApiFormat;
-    }
-    return _apiFormat;
-  }
-
   function rute(modelId = null) {
     let model = modelId ? `/${modelId}` : '';
     return `${_apiUrl}${model}${_apiFormat}`;
   }
 
   return {
-    all, find, add, update, destroy, callApi, apiUrl, apiFormat
+    all, find, add, update, destroy, callApi,
+    get apiUrl() { return _apiUrl; },
+    set apiUrl(apiUrl) { _apiUrl = apiUrl; },
+    get apiFormat() { return _apiFormat; },
+    set apiFormat(apiFormat) { _apiFormat = apiFormat; },
+    get verbs() { return _verbs; }
   };
 };
 
