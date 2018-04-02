@@ -7,9 +7,9 @@
       br
       .row
         .col-md-6
-          p.text-secondary.font-italic Registered at {{ dateToHuman(author.created_at) }}
+          p.text-secondary.font-italic Registered at {{ createdAt }}
         .col-md-6
-          p.text-right.text-secondary.font-italic Last updated at {{ dateToHuman(author.updated_at) }}
+          p.text-right.text-secondary.font-italic Last updated at {{ updatedAt }}
       hr
       .row
         .col-md-6
@@ -73,6 +73,14 @@ export default {
     },
     dateToHuman(date) {
       return moment(date).format("dddd, MMMM Do YYYY, h:mm a");
+    }
+  },
+  computed: {
+    createdAt() {
+      return this.dateToHuman(this.author.created_at);
+    },
+    updatedAt() {
+      return this.dateToHuman(this.author.updated_at);
     }
   },
   created() {
