@@ -1,12 +1,14 @@
 <template lang="pug">
   #app.container
     app-header
-    router-view
+    router-view#content
+    app-footer
 </template>
 
 <script>
 import feather from 'feather-icons';
 import AppHeader from './components/app_header';
+import AppFooter from './components/app_footer';
 import router from './config/router'
 
 export default {
@@ -15,7 +17,8 @@ export default {
     feather.replace();
   },
   components: {
-    AppHeader
+    AppHeader,
+    AppFooter
   }
 };
 </script>
@@ -29,10 +32,6 @@ body {
 
 * {
   font-family: 'Crimson Text', serif;
-}
-
-.container {
-  margin-top: 20px;
 }
 
 .btn {
@@ -49,5 +48,11 @@ input {
 
 .form-check label {
   cursor: pointer;
+}
+</style>
+
+<style scoped>
+#content {
+  margin-bottom: 50px;
 }
 </style>

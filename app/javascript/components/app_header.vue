@@ -57,7 +57,7 @@ export default {
 }
 
 #app-header {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 h6 {
